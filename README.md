@@ -114,9 +114,8 @@ python main.py
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+License
+All Rights Reserved - This project is proprietary and confidential. No part of this project may be reproduced, distributed, or transmitted in any form or by any means without the prior written permission of the copyright holder. See the LICENSE file for details.
 
 ## Acknowledgments
 

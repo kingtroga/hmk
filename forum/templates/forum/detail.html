@@ -1,0 +1,104 @@
+{% extends 'ew/base.html' %}
+
+{% block title %}Forum post{% endblock %}
+
+{% block content %}
+<div class="pt-[6rem] flex w-full justify-center flex-col items-center"> <!--Main div not the contents-->
+    <div class=" w-4/5  flex-col flex justify-center  items-start">
+        <h2 class="sm:text-5xl text-4xl font-bold z-[2]">{{ forum.title }}</h2>
+        <p class="my-2 text-mustard uppercase font-semibold flex flex-row justify-center items-start space-x-2 text-sm ">
+            <span>
+                {{ forum.created_at }}
+            </span>
+            <a href="{% url 'accounts:detail' forum.created_by.id %}">
+                <span>
+                    {{ forum.created_by }}
+                </span>
+            </a>
+            <!-- <span>
+                <i class="fa-solid  fa-message"></i>
+                3
+            </span> -->
+        </p>
+        <p class="text-lg">{{ forum.content }}</p>
+    </div>
+
+    <div class="w-4/5 {% if user.is_authenticated %} h-auto {% else %} h-auto {% endif %} flex xl:flex-row flex-col">
+        <div class="xl:w-1/2 w-full overflow-auto">
+            <h2 class="sm:text-2xl text-xl font-bold z-[2] text-white">Comments</h2>
+            {% if comments %}
+                <!--Comment item-->
+                {% for comment in comments %}
+                <div class="text-mustard text-sm my-4 font-semibold flex flex-col justify-center items-start">
+                    <p> {{ comment.comment }}</p>
+                    <p class="text-white">{{ comment.author }} @ {{ comment.created_at }}</p>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="text-mustard text-sm my-4 font-semibold flex flex-col justify-center items-center">
+                    <p>No comments</p>
+                </div>
+
+            {% endif %}
+        </div>
+
+        <div class="bg-black xl:w-1/2  w-full text-black flex flex-col items-start">
+            <h2 class="sm:text-2xl text-xl font-bold z-[2] text-white">Leave a comment</h2>
+            {% if user.is_authenticated %}
+                <div class="cols-span-3 w-full flex flex-col justify-center items-start  h-auto text-white rounded-xl">
+
+                    <form action="." method="post" class="flex flex-col justify-center items-start w-full">
+
+                        {% csrf_token %}
+
+                        <div class="mb-3 w-full">
+                            {{ form.comment }}
+                        </div>
+
+
+
+                        {% if form.errors or form.non_field_errors %}
+                            <div class="self-center mb-3 p-6 bg-red-100 rounded-xl text-black">
+                                {% for field in form %}
+                                    {{ field.errors }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        <button class="self-center text-lg font-semibold  px-6 py-3 bg-black text-black rounded-3xl  bg-mustard   hover:bg-white  hover:text-white capitalize">comment</button>
+
+                    </form>
+                </div>
+            {% else %}
+                <div class="text-mustard text-sm my-4 font-semibold flex w-full flex-row justify-center items-center">
+                    <p>Login to leave a comment</p>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+    <!-- Forum First landing  -->
+    <div class="flex flex-col justify-center items-center my-10  sm:mx-[15rem]">
+        <h2 class="sm:text-5xl text-4xl font-bold z-[2]">More Forums</h2>
+        <p class=" sm:text-9xl  text-7xl text-[#343a40]  font-extrabold sm:-mt-[4rem] z-[1]  -mt-[3rem]">Forums</p>
+    </div>
+
+    <!-- Forum second landing  -->
+    <div class="lg:flex lg:justify-center lg:items-center ">
+        <div class="xl:grid-cols-3 lg:mx-auto lg:my-[2rem] lg:grid-cols-2 lg:grid  flex flex-col justify-center items-center  lg:gap-1">
+            {% for forum in more_forums %}
+            <!-- FORUM ELEMENT -->
+            <div class="bg-[#343a40] p-4 lg:p-10 w-[21rem] sm:w-[22rem] md:w-[25rem] lg:w-[25rem] m-10 rounded-sm ">
+                <a href="{% url 'forum:detail' forum.id %}" class="h-auto flex flex-col space-y-2 justify-content items-start">
+                    <p class="text-mustard lg:text-3xl text-2xl font-extrabold">{{ forum.created_at }}</p>
+                    <h3 class="text-white lg:text-3xl text-2xl">{{ forum.title }}</h3>
+                    <a href="{% url 'accounts:detail' forum.created_by.id %}"><p class="uppercase text-lg text-white">{{ forum.created_by }}</p></a>
+                    <p class="text-white text-lg"  >{{ forum.content }}</p>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

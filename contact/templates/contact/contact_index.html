@@ -1,0 +1,28 @@
+{% extends 'ew/base.html' %}
+{% load static %}
+{% block title %}Direct Messages{% endblock %}
+
+
+{% block content %}
+<div class="pt-[2.5rem] w-4/5 mx-auto">
+    <div class="flex flex-col justify-center items-center my-10  sm:mx-[15rem]">
+        <h2 class="sm:text-5xl text-4xl font-bold z-[2]">Direct Messages</h2>
+        <p class=" sm:text-[5rem]  text-[3rem] text-[#343a40]  z-[1] font-extrabold sm:-mt-[4rem]  -mt-[2.5rem]">Messages</p>
+    </div>
+
+    <div class="space-y-6 w-full">
+        {% for message in direct_messages %}
+            <a href="{% url 'contact:detail' message.id %}">
+                <div class="flex items-center gap-4  mb-4 text-wrap">
+                    <img src="{% static 'images\message.jpg' %}" class=" w-10 md:w-20 h-auto rounded-full"  alt="">
+                    <div class="font-medium dark:text-white">
+                        <div class="text-lg">{{ message.subject }}</div>
+                        <div class="text-sm text-gray-400">New message sent @ {{ message.created_at }}</div>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+   </div>
+
+</div>
+{% endblock %}

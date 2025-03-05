@@ -1,0 +1,203 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} | Embrace Wellness</title>
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}" >
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                'mustard': '#ffc107',
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="bg-black font-sans text-white">
+    <nav class="fixed w-full z-[4] xl:flex xl:justify-center xl:space-x-72 p-5 bg-black  text-white shadow">
+      <div class="flex items-center justify-between cursor-pointer uppercase text-2xl ">
+        <span class="font-extrabold hover:text-mustard">
+          <a href="{% url 'core:index' %}">embracewellness</a>
+        </span>
+        <span class="xl:hidden block hover:text-mustard text-3xl">
+          <i name="menu" onclick="Menu(this)" class="fa-solid fa-bars"></i>
+        </span>
+      </div>
+      <ul class="xl:flex xl:static z-[1] xl:z-auto absolute w-full xl:w-auto left-0 xl:pl-0 pl-1 xl:py-0 py-1 xl:opacity-100 opacity-0 transition-all top-[-400px] ease-in duration-500  bg-black text-white">
+
+
+        {% if user_is_staff %}
+          <li class="mx-4 xl:my-0 my-4"><a href="{% url 'contact:index' %}" class="text-lg no-underline hover:underline-offset-8 hover:underline transition-all ease-in duration-500  hover:text-mustard capitalize">direct messages</a></li>
+        {% else %}
+        <li class="mx-4 xl:my-0 my-4"><a href="{% url 'core:index' %}#About" class="text-lg no-underline hover:underline-offset-8 hover:underline transition-all ease-in duration-500  hover:text-mustard capitalize">about</a></li>
+        <li class="mx-4 xl:my-0 my-4"><a href="{% url 'core:index' %}#Contact" class="text-lg no-underline hover:underline-offset-8 hover:underline transition-all ease-in duration-500  hover:text-mustard capitalize">contact</a></li>
+        {% endif %}
+
+        <li class="mx-4 xl:my-0 my-4"><a href="{% url 'blog:index' %}" class="text-lg no-underline hover:underline-offset-8 hover:underline transition-all ease-in duration-500  hover:text-mustard capitalize">blog</a></li>
+        <li class="mx-4 xl:my-0 my-4"><a href="{% url 'forum:index' %}" class="text-lg no-underline hover:underline-offset-8 hover:underline transition-all ease-in duration-500  hover:text-mustard capitalize">forum</a></li>
+        {% if user.is_authenticated %}
+        <li class="mx-4 xl:my-0 my-4"><a href="{% url 'conversation:inbox' %}" class="text-lg no-underline hover:underline-offset-8 hover:underline transition-all ease-in duration-500  hover:text-mustard capitalize">inbox</a></li>
+        <li class="mx-4 xl:my-0 my-4"><a href="{% url 'accounts:detail' user.username %}" class="text-lg no-underline hover:underline-offset-8 hover:underline transition-all ease-in duration-500  hover:text-mustard capitalize">profile</a></li>
+
+        <li class="mx-4 xl:my-0 my-4"><a href="{% url 'core:logout' %}" class="text-lg font-semibold xl:px-6 xl:py-3 transition-all ease-in duration-500 hover:underline-offset-8 hover:underline hover:text-mustard hover:underline xl:hover:no-underline xl:bg-black xl:text-white xl:rounded-3xl xl:border xl:border-white   xl:hover:bg-mustard  xl:hover:text-white capitalize">log out</a></li>
+        <li class="mx-4 xl:my-0 my-4">
+          <button id="dropdownDefaultButton" onclick="Dropdown(this)"  data-dropdown-toggle="dropdown" type="button">
+            <span class="text-lg font-semibold xl:px-6 xl:py-3  transition-all ease-in duration-500 hover:underline-offset-8 hover:underline hover:text-mustard  hover:underline xl:hover:bg-mustard xl:hover:no-underline text-white    xl:bg-mustard xl:text-black xl:rounded-3xl  xl:hover:text-white capitalize">
+              Create
+              <svg class="w-2.5 h-2.5 inline " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+              </svg>
+            </span>
+          </button>
+
+          <!-- Dropdown menu -->
+          <div id="dropdown" class="z-[-1] absolute top-[300px] hidden xl:top-[50px] bg-[#343a40] text-white divide-y divide-gray-100 rounded-lg shadow w-44">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+              <li>
+                <a href="{% url 'forum:new' %}" class="block px-4 py-2 hover:bg-mustard">New Forum post</a>
+              </li>
+              <li>
+                <a href="{% url 'blog:new' %}" class="block px-4 py-2 hover:bg-mustard">New Blog post</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        {% else %}
+          <li class="mx-4 xl:my-0 my-4"><a href="{% url 'core:signup' %}" class="text-lg font-semibold xl:px-6 xl:py-3 transition-all ease-in duration-500 hover:underline-offset-8 hover:underline hover:text-mustard xl:hover:bg-mustard hover:underline xl:hover:no-underline xl:bg-black text-white xl:rounded-3xl xl:border xl:border-white   xl:hover:bg-mustard  xl:hover:text-white capitalize">sign up</a></li>
+          <li class="mx-4 xl:my-0 my-4"><a href="{% url 'core:login' %}" class="text-lg font-semibold xl:px-6 xl:py-3  transition-all ease-in duration-500 hover:underline-offset-8 hover:underline hover:text-mustard xl:hover:bg-mustard  hover:underline xl:hover:no-underline text-white    xl:bg-mustard xl:text-black xl:rounded-3xl  xl:hover:text-white xl:hover:bg-gray-200 capitalize">log in</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+    {% block content %}
+    {% endblock %}
+    <footer class="xl:w-4/5  w-full my-2 mx-auto flex flex-col items-start xl:flex-row  xl:justify-center ">
+
+      <div class="py-10 px-6 text-left flex flex-col justify-center items-center xl:items-start space-y-10 mx-auto xl:my-0 my-2 w-full xl:w-1/4" >
+          <h3 class="text-2xl  text-[#f8f9fa] font-bold">About</h3>
+          <p class="text-gray-300 text-lg">We provide interactive resources, supportive community, counseling services, educational workshops, emergency resources, awareness campaigns, personal journals, and volunteer opportunities to aid students in promoting mental health and addressing gender-based violence.</p>
+          <div class="text-2xl flex flex-row space-x-2">
+            <span>
+              <i class="fa-brands cursor-pointer hover:bg-mustard fa-twitter py-3 px-3 rounded-full text-gray-300 bg-[#343a40]"></i>
+            </span>
+            <span>
+              <i class="fa-brands  cursor-pointer hover:bg-mustard  fa-facebook-f py-3 px-4 rounded-full text-gray-300  bg-[#343a40]"></i>
+            </span>
+            <span>
+              <i class="fa-brands  cursor-pointer  hover:bg-mustard fa-instagram py-3 px-3 rounded-full text-gray-300  bg-[#343a40]"></i>
+            </span>
+          </div>
+      </div>
+      <div class="py-10 text-left flex flex-col justify-content xl:items-start items-center space-y-10 xl:w-1/4 w-full xl:my-0 my-2 mx-auto" >
+          <h3 class="text-2xl font-bold text-[#f8f9fa]">Links</h3>
+          <ul class=" flex flex-col space-y-3 text-lg">
+            <span class="text-gray-300">
+              <i class=" text-gray-300 text-lg fa-solid fa-arrow-right"></i>
+              Home
+            </span>
+            <span class="text-gray-300">
+              <i class="text-gray-300 text-lg fa-solid fa-arrow-right"></i>
+              About
+            </span>
+            <span class="text-gray-300">
+              <i class=" text-gray-300 text-lg fa-solid fa-arrow-right"></i>
+              Services
+            </span>
+            <span class="text-gray-300">
+              <i class=" text-gray-300 text-lg fa-solid fa-arrow-right"></i>
+              Forum
+            </span>
+            <span class="text-gray-300">
+              <i class="text-gray-300 text-lg fa-solid fa-arrow-right"></i>
+              Contact
+            </span>
+          </ul>
+      </div>
+      <div class="py-10 text-left flex flex-col justify-content xl:items-start items-center space-y-10 xl:w-1/4 w-full xl:my-0 my-2 mx-auto" >
+          <h3 class="text-2xl font-bold text-[#f8f9fa]">Services</h3>
+          <ul class=" flex flex-col space-y-3 text-lg">
+            <span class="text-gray-300">
+              <i class="text-gray-300 text-lg fa-solid fa-arrow-right"></i>
+              Interactive Resources
+            </span>
+            <span class="text-gray-300">
+              <i class="text-gray-300 text-lg fa-solid fa-arrow-right"></i>
+              Supportive Community
+            </span>
+            <span class="text-gray-300">
+              <i class=" text-gray-300 text-lg fa-solid fa-arrow-right"></i>
+              Counseling Services
+            </span>
+            <span class="text-gray-300">
+              <i class=" text-gray-300 text-lg fa-solid fa-arrow-right"></i>
+              Awareness Campaigns
+            </span>
+            <span class="text-gray-300">
+              <i class="text-gray-300 text-lg fa-solid fa-arrow-right"></i>
+              Blog
+            </span>
+          </ul>
+      </div>
+      <div class="py-10 text-left flex flex-col justify-content xl:items-start items-center space-y-10 xl:w-1/4 w-full xl:my-0 my-2 mx-auto" >
+        <h3 class="text-2xl font-bold text-[#f8f9fa]">Have a Question?</h3>
+        <div>
+          <div class="flex space-x-2 mb-3">
+            <span>
+              <i class="fa-solid fa-location-dot text-lg text-gray-300"></i>
+            </span>
+            <p>	KM 12, Lagos/Ibadan Expressway, MFM Prayer City, Ogun State, Nigeria.</p>
+          </div>
+          <div class="flex space-x-2 mb-3">
+            <span>
+              <i class="fa-solid fa-phone text-lg text-gray-300"></i>
+            </span>
+            <p>+2348156123857</p>
+          </div>
+          <div class="flex space-x-2">
+            <span>
+              <i class="fa-solid fa-envelope text-lg text-gray-300"></i>
+            </span>
+            <p>embracewellness@mtu.edu.ng</p>
+          </div>
+        </div>
+
+
+    </div>
+
+    </footer>
+    <div class="text-[#6c757d] text-center text-lg m-6 text-wrap">
+      <span>
+        Copyright &copy; 2024. Built with hope by <a href="https://twitter.com/tariyekorogha" class="cursor-pointer text-mustard  no-underline hover:underline hover:underline-offset-2">Atary</a>
+      </span>
+    </div>
+    <script>
+      function Menu(e) {
+        let list = document.querySelector('ul');
+
+        e.name === 'menu' ? (e.name = "close",e.classList.remove('fa-bars'),e.classList.add('fa-xmark'), list.classList.add('top-[70px]'), list.classList.add('opacity-100')) : (e.name = "menu", list.classList.remove('top-[80px]'),e.classList.remove('fa-xmark'),e.classList.add('fa-bars'), list.classList.remove('opacity-100'))
+        var dropdown = document.getElementById("dropdown");
+        dropdown.classList.remove("block");
+        dropdown.classList.add("hidden");
+      }
+      function Dropdown(e) {
+        var dropdown = document.getElementById("dropdown");
+        if (dropdown.classList.contains("hidden")) {
+            // If dropdown is currently hidden, remove "hidden" and add "block"
+            dropdown.classList.remove("hidden");
+            dropdown.classList.add("block");
+        } else {
+            // If dropdown is currently shown, remove "block" and add "hidden"
+            dropdown.classList.remove("block");
+            dropdown.classList.add("hidden");
+        }
+      }
+    </script>
+    <script src="https://kit.fontawesome.com/4a0b7f4f49.js" crossorigin="anonymous"></script>
+</body>
+
+</html>

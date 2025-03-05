@@ -1,0 +1,58 @@
+{% extends 'ew/base.html' %}
+
+{% block title %}Edit Profile{% endblock %}
+
+
+{% block content %}
+<div class="pt-[2.5rem] ">
+    <div class="flex flex-col justify-center items-center my-10  sm:mx-[15rem]">
+        <h2 class="sm:text-5xl text-4xl font-bold z-[2]">Edit Profile</h2>
+        <p class=" sm:text-[5rem]  text-[3rem] text-[#343a40]  z-[1] font-extrabold sm:-mt-[4rem]  -mt-[2.5rem]">Edit</p>
+    </div>
+<div>
+<div class="flex flex-row justify-center ">
+    <div class="cols-span-3 flex flex-col justify-center items-center  h-auto  bg-black text-white rounded-xl">
+
+        <form action="." method="post" class="flex flex-col justify-center items-start">
+
+            {% csrf_token %}
+
+
+            <div class="mb-3">
+                <label class="inline-block mb-2 font-semibold text-white">First Name:</label><br>
+                {{ user_form.first_name }}
+            </div>
+
+            <div class="mb-3">
+                <label class="inline-block mb-2 text-white">Last Name:</label><br>
+                {{ user_form.last_name }}
+            </div>
+
+            <div class="mb-3">
+                <label class="inline-block mb-2 text-white">Username:</label><br>
+                {{ user_form.username }}
+            </div>
+
+
+            <div class="mb-3">
+                <label class="inline-block mb-2 text-white">Email:</label><br>
+                {{ user_form.email }}
+            </div>
+
+
+            {% if user_form.errors or user_form.non_field_errors %}
+                <div class="self-center mb-3 p-6 bg-red-100 rounded-xl text-black">
+                    {% for field in user_form %}
+                        {{ field.errors }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+
+            <button class="self-center text-lg font-semibold m-[1rem] px-6 py-3 bg-black text-black rounded-3xl  bg-mustard   hover:bg-white  hover:text-white capitalize">Edit</button>
+
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,191 @@
+{% extends 'ew/base.html' %}
+{% load static %}
+
+{% block title %} Welcome {% endblock %}
+
+{% block content %}
+   <!-- First Landing -->
+    <div class="text-white flex flex-col  transition-all ease-in duration-500 lg:flex-row mx-auto justify-center lg:text-left  mx-auto items-center -space-y-[10rem]">
+        <div style="text-shadow: 2px 2px #000;" class="flex flex-col lg:text-left items-start space-y-10 lg:-mb-0 lg:py-0 sm:py-[10rem] py-[10rem] -mb-[30rem] sm:-mb-[40rem] lg:-mb-0-mr-[10rem]  lg:-mr-[15rem] lg:-mr-[10rem]">
+            <p class="uppercase text-mustard font-semibold text-sm tracking-widest">hello!</p>
+            <h1 class="sm:text-6xl  text-4xl font-extrabold">
+                Welcome to <br>
+                <span class="text-mustard">EmbraceWellness</span>
+            </h1>
+            <p class="sm:text-3xl text-2xl">It's okay.</p>
+            <div>
+                <a href="{% url 'accounts:professionals' %}">
+                    <button class="uppercase font-semibold text-sm px-6 py-4 bg-mustard text-black rounded-3xl">
+                        talk to us
+                    </button>
+                </a>
+                <a href="{% url 'forum:new' %}">
+                    <button class="uppercase font-semibold text-sm px-6 py-4 bg-black text-white rounded-3xl border border-white">
+                        vent
+                    </button>
+                </a>
+
+            </div>
+        </div>
+        <div class="z-[-1]">
+            <img src="{% static 'images/bg_1.png' %}" class=" h-[38rem] sm:h-[45rem] lg:h-[50rem] md:h-[60rem] xl:h-[65rem] w-auto" alt="a warm embrace">
+        </div>
+    </div>
+
+    <!-- About -->
+    <div id="About" class="m-10">
+        <div class="flex flex-row justify-center items-center">
+            <div class="lg:block hidden">
+                <img src="{% static 'images/bg_2.png' %}" class="h-auto w-[120rem]" alt="">
+            </div>
+            <div class="flex flex-col items-center lg:items-start">
+                <h2 class="sm:text-5xl text-4xl font-bold z-[2]">About Us</h2>
+                <p class=" sm:text-9xl  text-7xl text-[#343a40] z-[1]  font-extrabold -mt-[2rem] -ml-[2rem]">About</p>
+                <p class="text-lg -mt-[2rem] mb-6 z-[3]">We provide interactive resources, supportive community, counseling services, educational workshops, emergency resources, awareness campaigns, personal journals, and volunteer opportunities to aid students in promoting mental health and addressing gender-based violence.</p>
+                <p class="text-2xl">
+                    <span class="text-mustard font-semibold">
+                        {{ professionals }}
+                    </span> Professional Counsellor(s) Available
+                </p>
+                <a href="{% url 'accounts:professionals' %}">
+                    <button class="uppercase font-semibold text-sm px-6 py-4 bg-mustard text-black rounded-3xl">
+                        talk to us
+                    </button>
+                </a>
+            </div>
+    </div>
+
+    <!-- Forum First landing  -->
+    <div class="flex flex-col justify-center w-4/5 items-center my-10 mx-auto ">
+        <h2 class="sm:text-5xl text-4xl font-bold">Forum</h2>
+        <p class=" sm:text-9xl  text-7xl text-[#343a40]  font-extrabold sm:-mt-[3.5rem]  -mt-[2rem]">Forum</p>
+        <p class="text-lg sm:-mt-[2rem]   -mt-[1rem] text-center">Students, staff, and non-students are able to connect, share experiences, and seek advice through our online discussion forum and fostering a sense of unity and support. (Acts 2:42-47)</p>
+    </div>
+
+    <!-- Forum second landing  -->
+    <div class="lg:flex lg:justify-center lg:items-center ">
+        <div class="xl:grid-cols-3 lg:mx-auto lg:my-[2rem] lg:grid-cols-2 lg:grid  flex flex-col justify-center items-center  lg:gap-1">
+            {% for forum in forums %}
+            <!-- FORUM ELEMENT -->
+            <div class="bg-[#343a40] p-4 lg:p-10 w-[21rem] sm:w-[22rem] md:w-[25rem] lg:w-[25rem] m-10 rounded-sm ">
+                <a href="{% url 'forum:detail' forum.id %}" class="h-auto flex flex-col space-y-2 justify-content items-start">
+                    <p class="text-mustard lg:text-3xl text-2xl font-extrabold">{{ forum.created_at }}</p>
+                    <h3 class="text-white lg:text-3xl text-2xl">{{ forum.title }}</h3>
+                    <a href="{% url 'accounts:detail' forum.created_by.id %}"><p class="uppercase text-lg text-white">{{ forum.created_by }}</p></a>
+                    <p class="text-white text-lg"  >{{ forum.content }}</p>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- VENT BUTTON -->
+    <div class="flex justify-center items-center">
+        <a href="{% url 'forum:new' %}">
+            <button class="uppercase font-semibold -ml-2 text-sm px-12 py-5 bg-mustard text-black rounded-full ">
+                vent
+            </button>
+        </a>
+    </div>
+
+    <!-- Blog First landing  -->
+    <div class="flex flex-col justify-center items-center my-10 mx-auto w-4/5">
+        <h2 class="sm:text-5xl text-4xl font-bold z-[3]">Our Blog</h2>
+        <p class=" sm:text-9xl  text-7xl text-[#343a40]  font-extrabold sm:-mt-[3.5rem] z-[1]  -mt-[2rem]">Blog</p>
+        <p class="text-lg sm:-mt-[2rem]   -mt-[1rem] text-center z-[2]">Students, staff, and non-students are able to connect, share experiences, and seek advice through our online blog  and fostering a sense of unity and support. (Acts 2:42-47)</p>
+    </div>
+
+
+    <div class="lg:flex lg:justify-center lg:items-center ">
+        <div class="xl:grid-cols-3 lg:mx-auto lg:my-[2rem] lg:grid-cols-2 lg:grid  flex flex-col justify-center items-center  lg:gap-1">
+
+            <!--Blog item-->
+            {% for blog in blogs %}
+                <div class="w-[20rem] sm:w-[20rem] md:w-[25rem] lg:w-[25rem] m-10 rounded-sm ">
+                    <a href="{% url 'blog:detail' blog.id %}" class="h-auto flex flex-col space-y-2 justify-content items-start">
+                        <img src="{{ blog.image.url }}" class="w-full h-auto">
+                        <p class="text-mustard uppercase flex flex-row justify-center items-center space-x-10 text-sm ">
+                            <span>
+                                {{ blog.created_at }}
+                            </span>
+                            <a href="{% url 'accounts:detail' blog.author.id %}">
+                                <span>
+                                {{ blog.author }}
+                                </span>
+                            </a>
+                            <span>
+                                <i class="fa-solid  fa-message"></i>
+                                {{ blog.author.blogs.count }}
+
+                            </span>
+                        </p>
+                        <h3 class="text-white lg:text-2xl text-xl w-full">{{ blog.title }}</h3>
+                        <p class="text-white text-[1rem]"  >{{ blog.content }}</p>
+                    </a>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <!-- CONTACT FIRST LANDING -->
+    <div id="Contact" class="flex flex-col justify-center items-center mx-auto my-10 w-4/5">
+        <h2 class="sm:text-5xl text-4xl font-bold z-[3]">Contact us</h2>
+        <p class=" sm:text-9xl  text-7xl text-[#343a40]  font-extrabold sm:-mt-[3.5rem] z-[1]  -mt-[2rem]">Contact</p>
+        <p class="text-lg sm:-mt-[2rem]   -mt-[1rem] text-center z-[2]">You can contact us via any of the following details below or directly with the form on the website</p>
+    </div>
+
+    <!-- contant second landing -->
+    <div class="my-10  w-full mx-auto my-2">
+        <div class="flex justify-center items-center">
+            <div class="xl:block hidden">
+                <img src="{% static 'images/bg_2.png' %}" class="h-auto w-[120rem]" alt="">
+            </div>
+            <form action="." method="post" class="flex flex-col justify-center items-center bg-white xl:w-4/5 w-full py-10 mx-auto my-2  space-y-2">
+
+                {% csrf_token %}
+
+                <div class="mb-3 w-full flex justify-center">
+                    {% csrf_token %}
+                    {{ form.name }}
+                </div>
+                <div class="mb-3 w-full flex justify-center">
+                    {% csrf_token %}
+                    {{ form.email }}
+                </div>
+                <div class="mb-3 w-full flex justify-center">
+                    {% csrf_token %}
+                    {{ form.subject }}
+                </div>
+                <div class="mb-3 w-full flex justify-center">
+                    {% csrf_token %}
+                    {{ form.message }}
+                </div>
+
+                {% if form.errors or form.non_field_errors %}
+                    <div class="self-center mb-3 p-6 bg-red-100 rounded-xl text-black">
+                        {% for field in form %}
+                            {{ field.errors }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% if form.form_is_valid %}
+                    <div class="self-center mb-3 p-6 bg-green-100 rounded-xl text-white">
+                        <p>Message Received</p>
+                    </div>
+                {% endif %}
+
+                {% csrf_token %}
+                <button class="uppercase font-semibold flex justify-center   text-sm px-12 py-5 bg-mustard text-black rounded-full ">
+                    send message
+                </button>
+            </form>
+    </div>
+
+
+
+
+
+
+{% endblock %}

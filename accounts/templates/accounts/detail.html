@@ -1,0 +1,113 @@
+{% extends 'ew/base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+
+{% block content %}
+<section class="flex flex-col pt-[5rem] justify-end items-center w-full">
+    <div class="xl:w-4/5 w-full h-auto flex sm:flex-row flex-col items-center">
+        {% if request.user == profile.user %}<a href="{% url 'accounts:edit_profile_pic' %}" class="sm:w-1/5 w-4/5 hover:font-bold flex flex-col items-center h-auto rounded-full hover:cursor-pointer">{% else %}<div class="sm:w-1/5 w-4/5 flex flex-col items-center h-auto rounded-full">{% endif %}
+            <img class="{% if request.user == profile.user %} hover:blur-sm  {% endif %}rounded-full " src="{{ profile.avatar.url }}" alt="Rounded avatar">
+            {% if request.user == profile.user %}
+                <span class="text-white text-xl">
+                    <i class="fa-solid fa-pen"></i>
+                    EDIT
+                </span>
+            {% endif %}
+        {% if request.user == profile.user %}</a>{% else %}</div>{% endif %}
+
+        <div  class="h-auto mx-10 w-4/5 flex flex-col space-y-2 sm:justify-content justify-center items-start">
+            <div class="flex flex-row space-x-2 items-center sm:justify-start justify-center">
+                <h3 class="text-white lg:text-[2rem] text-3xl font-bold w-full">{{ profile.user.first_name }} {{ profile.user.last_name }}</h3>
+                {% if request.user == profile.user %}
+                    <a href="{% url 'accounts:edit_profile_text' profile.user.id %}" class="py-2 px-3 rounded-full border border-white">
+                        <span>
+                            <i class="fa-solid fa-pen"></i>
+                        </span>
+                    </a>
+                {% else %}
+                    <a href="{% url 'conversation:new' profile.user.id %}" class="py-2 px-3 rounded-full border border-white">
+                        <span>
+                            <i class="fa-solid fa-message"></i>
+                        </span>
+                    </a>
+                {% endif %}
+
+            </div>
+
+            <p class="text-mustard uppercase flex flex-row justify-center items-center space-x-10 text-sm  font-semibold">
+                <span>
+                    @{{ profile.user.username }}
+                </span>
+            </p>
+            <h3 class="text-white pt-6 text-xl font-bold w-full">I do me regardless</h3>
+            <p class="text-mustard  text-sm flex sm:flex-row flex-col font-semibold  w-[40rem] sm:space-x-4 justify-start sm:items-center items-start">
+                <span>
+                    <i class="fa-regular fa-calendar"></i>
+                    joined since {{ profile.created_at }}
+                </span>
+                <span>
+                    <i class="fa-solid fa-microphone"></i>
+                    {{ profile.user.forums.count }} forums created
+                </span>
+                <span>
+                    <i class="fa-solid fa-blog"></i>
+                    {{ profile.user.forums.count }} Blogs created
+                </span>
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="sm:w-4/5  w-4/5  pt-4 {% if user.is_authenticated %} h-auto {% else %} h-auto {% endif %} flex sm:flex-row flex-col">
+        <div class="sm:w-1/2 w-full overflow-auto">
+            <h2 class="sm:text-2xl text-xl font-bold z-[2] text-white">Latest Forums</h2>
+            {% if forums %}
+                <!--Forum item-->
+                {% for forum in forums %}
+                <a href="{% url 'forum:detail' forum.id %}">
+                    <div class="text-mustard text-sm my-4 font-semibold flex flex-col justify-center items-start">
+                        <p> {{ forum.title }}</p>
+                        <p class="text-white">created_at @ {{ forum.created_at }}</p>
+                    </div>
+                </a>
+                {% endfor %}
+            {% else %}
+                <div class="text-mustard text-sm my-4 font-semibold flex flex-col justify-center items-center">
+                    <p>No Forums by {{ profile.user.first_name }}</p>
+                </div>
+
+            {% endif %}
+        </div>
+
+        <div class="bg-black sm:w-1/2  w-full text-black flex flex-col items-start">
+            <h2 class="sm:text-2xl text-xl font-bold z-[2] text-white">Latest Blogs</h2>
+            {% if blogs %}
+                <!--Forum item-->
+                {% for blog in blogs %}
+                <a href="{% url 'blog:detail' blog.id %}">
+                    <div class="text-mustard text-sm my-4 font-semibold flex flex-col justify-center items-start">
+                        <p> {{ blog.title }}</p>
+                        <p class="text-white">created at @ {{ blog.created_at }}</p>
+                    </div>
+                </a>
+
+                {% endfor %}
+            {% else %}
+                <div class="text-mustard text-sm my-4 font-semibold flex flex-col justify-center items-center">
+                    <p>No blogs by {{ profile.user.first_name }} </p>
+                </div>
+
+            {% endif %}
+
+        </div>
+    </div>
+
+
+
+</section>
+
+
+{% endblock %}

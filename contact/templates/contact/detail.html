@@ -1,0 +1,35 @@
+{% extends 'ew/base.html' %}
+{% block title %}Direct Message{% endblock %}
+
+
+{% block content %}
+<div class="pt-[5rem] w-4/5 mx-auto">
+    <h3 class=" font-extrabold text-white lg:text-2xl text-xl w-full my-4 ">Subject: {{ message.subject }}</h3>
+    <p class="text-mustard font-bold flex sm:flex-row  flex-col justify-start  items-start sm:items-center sm:space-x-10 text-sm  my-4">
+        <span>
+            Sent by: {{ message.name }}
+        </span>
+        <span>
+            Email: {{ message.email }}
+        </span>
+        <span>
+            @ {{ message.created_at }}
+        </span>
+    </p>
+    <p class="text-white text-[1rem] text-lg my-4"   >
+        <span class="font-bold">
+            Message:
+        </span>
+
+        {{ message.message }}
+    </p>
+    <form action="." method="post">
+        {% csrf_token %}
+        <div class="flex items-center">
+            {{ form.attended_to  }}
+            <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">I have attended to this <a href="#" class="text-mustard  hover:underline">message</a>.</label>
+        </div>
+        <button class="text-lg font-semibold mt-[1rem] px-3 py-2 bg-black text-black rounded-xl  bg-mustard   hover:bg-white  hover:text-black uppercase">confirm</button>
+    </form>
+</div>
+{% endblock %}

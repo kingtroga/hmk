@@ -1,0 +1,22 @@
+{% extends 'ew/base.html' %}
+{% load static %}
+
+{% block title %} Page Not Found {% endblock %}
+
+{% block content %}
+<div class="pt-[5rem] mx-auto w-4/5 lg:w-full">
+        <!-- 404 Error -->
+
+        <div class="flex flex-row justify-center items-center">
+            <div class="lg:block hidden">
+                <img src="{% static 'images/bg_2.png' %}" class="h-auto w-[120rem]" alt="">
+            </div>
+            <div class="flex flex-col items-center lg:items-start">
+                <h2 class="sm:text-5xl text-4xl font-bold z-[2]">Page Not Found</h2>
+                <p class=" sm:text-9xl  text-7xl text-[#343a40] z-[1]  font-extrabold -mt-[2rem] -ml-[2rem]">404</p>
+                <p class="text-lg -mt-[2rem] mb-6 z-[3]">We are sorry we couldn't find the page you were looking for but it's okay.</p>
+            </div>
+        </div>
+
+</div>
+{% endblock %}

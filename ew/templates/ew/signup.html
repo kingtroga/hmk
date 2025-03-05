@@ -1,0 +1,59 @@
+{% extends 'ew/base.html' %}
+{% load static %}
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+
+<div class="pt-[10rem] pb-4 flex justify-center flex-col items-center  space-y-10 ">
+
+    <div class="flex flex-col justify-center items-center w-1/3 h-auto  bg-black text-white rounded-xl">
+
+        <form action="." method="post" class="flex flex-col justify-center items-start">
+            <h2 class="text-white text-2xl md:text-3xl mb-[1rem] font-bold">Sign Up</h2>
+            {% csrf_token %}
+
+
+            <div class="mb-3">
+                <label class="inline-block mb-2 font-semibold text-white">First Name</label><br>
+                {{ signup_form.first_name }}
+            </div>
+
+            <div class="mb-3">
+                <label class="inline-block mb-2 font-semibold text-white">Last Name</label><br>
+                {{ signup_form.last_name }}
+            </div>
+
+            <div class="mb-3">
+                <label class="inline-block mb-2 font-semibold text-white">Username</label><br>
+                {{ signup_form.username }}
+            </div>
+
+            <div class="mb-3">
+                <label class="inline-block mb-2 text-white">Email</label><br>
+                {{ signup_form.email }}
+            </div>
+
+            <div class="mb-3">
+                <label class="inline-block mb-2 text-white">Password</label><br>
+                {{ signup_form.password1 }}
+            </div>
+
+            <div class="mb-3">
+                <label class="inline-block mb-2 text-white">Repeat Password</label><br>
+                {{ signup_form.password2 }}
+            </div>
+
+            {% if signup_form.errors or signup_form.non_field_errors %}
+                <div class="self-center mb-3 p-6 bg-red-100 rounded-xl text-black">
+                    {% for field in signup_form %}
+                        {{ field.errors }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <button class="self-center text-lg font-semibold m-[1rem] px-6 py-3 bg-black text-black rounded-3xl  bg-mustard   hover:bg-white  hover:text-white capitalize">Sign Up</button>
+
+        </form>
+    </div>
+</div>
+{% endblock %}

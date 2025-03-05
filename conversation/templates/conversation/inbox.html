@@ -1,0 +1,48 @@
+{% extends 'ew/base.html' %}
+{% load static %}
+{% block title %}Inbox{% endblock %}
+
+{% block content %}
+   <div class="pt-[4rem] w-4/5 mx-auto">
+
+    <div id="Contact" class="flex flex-col justify-center items-center mx-auto my-10 w-4/5">
+        <h2 class="sm:text-5xl text-4xl font-bold z-[3]">Inbox</h2>
+        <p class="text-7xl text-[#343a40]  font-extrabold sm:-mt-[3.5rem] z-[1]  -mt-[2rem]">Inbox</p>
+    </div>
+
+   <div class="space-y-6 w-full">
+        {% for conversation in conversations1 %}
+          {% for message in conversation.messages.all %}
+            {% if message.created_by != request.user %}
+            <a href="{% url 'conversation:detail' conversation.member2.id %}">
+                <div class="flex items-center gap-4 mb-4">
+                    <img src="{% static 'images\message.jpg' %}" class="w-20 h-auto rounded-full"  alt="">
+                    <div class="font-medium dark:text-white">
+                        <div class="text-lg">{{ conversation.member2.first_name }} {{ conversation.member2.last_name }}</div>
+                        <div class="text-sm text-gray-400">New message sent @ {{ conversation.modified_at }}</div>
+                    </div>
+                </div>
+            </a>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+
+        {% for conversation in conversations2 %}
+          {% for message in conversation.messages.all %}
+            {% if message.created_by != request.user %}
+            <a href="{% url 'conversation:detail' conversation.member1.id %}">
+                <div class="flex items-center gap-4 mb-4">
+                    <img src="{% static 'images\message.jpg' %}"  class="w-20 h-auto rounded-full bg-grey-400"  alt="">
+                    <div class="font-medium dark:text-white">
+                        <div class="text-lg">{{ conversation.member1.first_name }} {{ conversation.member1.last_name }}</div>
+                        <div class="text-sm text-gray-400">New message sent @ {{ conversation.modified_at }}</div>
+                    </div>
+                </div>
+            </a>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+   </div>
+
+   </div>
+{% endblock %}

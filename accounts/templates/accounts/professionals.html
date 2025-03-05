@@ -1,0 +1,28 @@
+{% extends 'ew/base.html' %}
+
+{% block title %}Professionals{% endblock %}
+
+
+{% block content %}
+<div class="pt-[4rem] w-4/5 mx-auto">
+    <div class="flex flex-col justify-center items-center my-10 mx-auto w-full">
+        <h2 class="sm:text-5xl text-4xl font-bold z-[3]">Who do you want to talk to?</h2>
+        <p class=" sm:text-9xl  text-5xl text-[#343a40]  font-extrabold sm:-mt-[3.5rem] z-[1]  -mt-[2rem]">Professionals</p>
+        <p class="text-lg sm:-mt-[2rem] text-mustard   -mt-[1rem] text-center z-[2]">{{ professionals_count }} professional(s) available</p>
+    </div>
+
+    <div class="space-y-6 w-full">
+        {% for professional in professionals_list %}
+            <a href="{% url 'accounts:detail' professional.user.username %}">
+                <div class="flex items-center gap-4  mb-4 text-wrap">
+                    <img src="{{ professional.avatar.url }}" class=" w-10 md:w-20 h-auto rounded-full"  alt="">
+                    <div class="font-medium dark:text-white">
+                        <div class="text-lg">{{ professional.user.first_name }}  {{ professional.user.last_name }}</div>
+                        <div class="text-sm text-gray-400">Joined in {{ professional.created_at }}</div>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+   </div>
+</div>
+{% endblock %}

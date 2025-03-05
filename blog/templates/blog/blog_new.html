@@ -1,0 +1,49 @@
+{% extends 'ew/base.html' %}
+
+{% block title %}New Forum Post{% endblock %}
+
+
+{% block content %}
+<div class="pt-[2.5rem] ">
+    <div class="flex flex-col justify-center items-center my-10  sm:mx-[15rem]">
+        <h2 class="sm:text-5xl text-4xl font-bold z-[2]">New Blog</h2>
+        <p class=" sm:text-[5rem]  text-[3rem] text-[#343a40]  z-[1] font-extrabold sm:-mt-[4rem]  -mt-[2.5rem]">Blog</p>
+    </div>
+<div>
+<div class="flex flex-row justify-center ">
+    <div class="cols-span-3 flex flex-col justify-center items-center  h-auto  bg-black text-white rounded-xl">
+
+        <form method="post" action="{% url 'blog:new' %}" enctype="multipart/form-data" class="flex flex-col justify-center items-start">
+
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="inline-block mb-2 font-semibold text-white">Blog Image:</label><br>
+                {{ form.image }}
+            </div>
+
+            <div class="mb-3">
+                <label class="inline-block mb-2 font-semibold text-white">Blog Title:</label><br>
+                {{ form.title }}
+            </div>
+
+            <div class="mb-3">
+                <label class="inline-block mb-2 text-white">Blog Content:</label><br>
+                {{ form.content }}
+            </div>
+
+            {% if form.errors or form.non_field_errors %}
+                <div class="self-center mb-3 p-6 bg-red-100 rounded-xl text-black">
+                    {% for field in form %}
+                        {{ field.errors }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <button class="self-center text-lg font-semibold m-[1rem] px-6 py-3 bg-black text-black rounded-3xl  bg-mustard   hover:bg-white  hover:text-white capitalize">Blog</button>
+
+        </form>
+    </div>
+</div>
+
+{% endblock %}
